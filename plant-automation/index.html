@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Plant App Build Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f2f5f3;
+  --surface: #ffffff;
+  --surface-2: #eaf0ed;
+  --ink: #13201b;
+  --ink-2: #44534c;
+  --ink-3: #69786f;
+  --line: #d3ddd8;
+  --line-strong: #aebcb5;
+  --accent: #0b5d57;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcece8;
+  --accent-line: #8cc0b8;
+  --prem: #4b4378;
+  --prem-soft: #e8e6f2;
+  --row-open: #f5faf8;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --cds-text-primary: var(--ink);
+  --cds-text-secondary: var(--ink-2);
+  --cds-chart-axis: var(--ink-3);
+  --cds-chart-categorical-1: var(--accent);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1412;
+    --surface: #141c19;
+    --surface-2: #1a2420;
+    --ink: #e3eae6;
+    --ink-2: #a7b4ae;
+    --ink-3: #829089;
+    --line: #26332e;
+    --line-strong: #3a4943;
+    --accent: #5fc3b7;
+    --accent-ink: #052623;
+    --accent-soft: #132f2b;
+    --accent-line: #2c6a62;
+    --prem: #b8b0e4;
+    --prem-soft: #211f33;
+    --row-open: #17211d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1412;
+  --surface: #141c19;
+  --surface-2: #1a2420;
+  --ink: #e3eae6;
+  --ink-2: #a7b4ae;
+  --ink-3: #829089;
+  --line: #26332e;
+  --line-strong: #3a4943;
+  --accent: #5fc3b7;
+  --accent-ink: #052623;
+  --accent-soft: #132f2b;
+  --accent-line: #2c6a62;
+  --prem: #b8b0e4;
+  --prem-soft: #211f33;
+  --row-open: #17211d;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.5;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  z-index: 30;
+}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+/* header */
+.masthead { padding-block: 40px 22px; }
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -.015em;
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.standfirst { margin: 0; color: var(--ink-2); max-width: 62ch; font-size: 18px; }
+.prepared {
+  margin: 16px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  width: fit-content;
+  max-width: 100%;
+  font-size: 16px;
+  color: var(--ink-2);
+}
+.prepared strong { color: var(--ink); font-weight: 700; }
+.plan-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.plan-chip {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 15px;
+}
+.plan-chip b { font-family: var(--font-display); font-weight: 700; }
+.plan-chip span { font-family: var(--font-mono); font-size: 14px; color: var(--ink-2); }
+.plan-chip.rec { border-color: var(--accent); background: var(--accent-soft); }
+.plan-chip.rec span { color: var(--ink); }
+
+/* main tabs */
+.tabbar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line-strong);
+}
+.tabs {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto;
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font: 600 15.5px/1.2 var(--font-display);
+  padding: 15px 11px 13px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--ink); background: var(--surface-2); }
+.tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.tab:focus-visible, .subtab:focus-visible, .pt-btn:focus-visible, .open-all:focus-visible, .jump:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 4px;
+}
+.count {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+.tab[aria-selected="true"] .count { background: var(--accent-soft); color: var(--accent); }
+
+/* panels */
+.content { padding-block: 26px 64px; }
+.panel[hidden], .subpanel[hidden] { display: none; }
+.lead { margin: 0 0 20px; max-width: 70ch; font-size: 18px; }
+.callout {
+  margin: 0 0 20px;
+  max-width: 78ch;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--accent-line);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+}
+.callout p { margin: 0; }
+.callout strong { color: var(--accent); }
+.note { margin: 16px 0 0; color: var(--ink-2); font-size: 15.5px; max-width: 75ch; }
+.h-sub {
+  font-family: var(--font-display); font-weight: 700; font-size: 21px;
+  margin: 38px 0 12px;
+}
+
+/* sub tabs */
+.subtabs {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 5px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 18px;
+  width: fit-content;
+  max-width: 100%;
+}
+.subtab {
+  appearance: none; border: 0; cursor: pointer;
+  background: transparent; color: var(--ink-2);
+  font: 600 15px/1.2 var(--font-display);
+  padding: 9px 13px; border-radius: 7px;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.subtab:hover { color: var(--ink); background: var(--surface); }
+.subtab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+.subtab[aria-selected="true"] .count { background: rgba(255,255,255,.18); color: inherit; }
+.sub-lead { margin: 0 0 14px; color: var(--ink-2); max-width: 70ch; }
+
+/* table chrome */
+.tbl-tools { display: flex; justify-content: flex-end; margin: 0 0 8px; }
+.open-all {
+  appearance: none; cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--surface);
+  color: var(--ink-2); border-radius: 6px;
+  font: 600 13.5px/1 var(--font-display);
+  padding: 8px 12px;
+}
+.open-all:hover { color: var(--ink); border-color: var(--ink-3); }
+.tbl-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; vertical-align: top; }
+thead th {
+  font: 600 12.5px/1.2 var(--font-mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 12px 16px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+
+/* at a glance */
+.scroll-x { overflow-x: auto; }
+.plans { min-width: 680px; }
+.plans thead th {
+  font: 700 19px/1.2 var(--font-display);
+  letter-spacing: 0; text-transform: none; color: var(--ink);
+  padding: 16px;
+  width: 25%;
+}
+.plans thead th:first-child { width: 22%; }
+.plans tbody th, .pay tbody th {
+  font-weight: 600; color: var(--ink-2); font-size: 15.5px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+}
+.plans td, .pay td { padding: 14px 16px; border-top: 1px solid var(--line); }
+.plans .rec { background: var(--accent-soft); }
+.plans thead th.rec { box-shadow: inset 0 3px 0 var(--accent); }
+.badge {
+  display: block; width: fit-content; margin-top: 6px;
+  font: 500 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent-ink); background: var(--accent);
+  padding: 5px 7px; border-radius: 4px;
+}
+.price td { font: 700 21px/1.2 var(--font-mono); letter-spacing: -.01em; }
+.jump {
+  display: block; width: fit-content; margin-top: 8px;
+  color: var(--accent); font-weight: 600; font-size: 15px;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+}
+.jump::after { content: " →"; }
+
+/* payment */
+.pay { min-width: 620px; }
+.pay td { font-family: var(--font-mono); font-size: 15.5px; }
+.pay td small { display: block; font-family: var(--font-body); font-size: 13.5px; color: var(--ink-3); margin-top: 2px; }
+.pay td.nil { color: var(--ink-3); }
+.pay .total th, .pay .total td { border-top: 2px solid var(--ink-3); font-weight: 700; color: var(--ink); }
+.pay .total td { font-size: 17px; }
+
+/* points tables */
+.points col.c-name { width: 34%; }
+.points > thead th:first-child { width: 34%; }
+.points > thead th.chk { width: 104px; text-align: center; }
+tr.pt > td { border-top: 1px solid var(--line); }
+tr.pt:first-child > td { border-top: 0; }
+tr.pt { cursor: pointer; }
+tr.pt:hover > td { background: var(--surface-2); }
+tr.pt.open > td { background: var(--row-open); }
+.pt-name { padding: 0; }
+.pt-btn {
+  appearance: none; border: 0; background: none; cursor: pointer;
+  width: 100%; text-align: left;
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 16px;
+  font: 600 16.5px/1.3 var(--font-body);
+  color: var(--ink);
+}
+.pt-btn:hover span:last-child { color: var(--accent); }
+.pm {
+  flex: 0 0 auto;
+  position: relative;
+  width: 20px; height: 20px; margin-top: 1px;
+  border: 1.5px solid var(--accent-line);
+  border-radius: 5px;
+  color: var(--accent);
+}
+.pm::before, .pm::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 9px; height: 1.75px; background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform .18s ease;
+}
+.pm::after { transform: translate(-50%, -50%) rotate(90deg); }
+.pt-btn[aria-expanded="true"] .pm { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.pt-btn[aria-expanded="true"] .pm::after { transform: translate(-50%, -50%) rotate(0deg); }
+.pt-short { padding: 13px 16px; color: var(--ink-2); font-size: 16px; }
+.chk { text-align: center; padding: 13px 8px; }
+.yes { color: var(--accent); font-weight: 700; font-size: 18px; }
+.no { color: var(--ink-3); }
+
+.numbered tbody { counter-reset: step; }
+.numbered tr.pt { counter-increment: step; }
+.numbered .pt-btn span:last-child::before {
+  content: counter(step) ". ";
+  font-family: var(--font-mono); color: var(--ink-3); font-weight: 500;
+}
+
+tr.group > th {
+  padding: 11px 16px;
+  background: var(--accent-soft);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font: 700 13px/1.2 var(--font-mono);
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--accent);
+}
+tr.group > th .count { margin-left: 8px; background: var(--surface); }
+tr.group.prem > th { background: var(--prem-soft); color: var(--prem); }
+tbody tr.group:first-child > th { border-top: 0; }
+
+tr.detail > td {
+  padding: 4px 16px 22px 48px;
+  background: var(--row-open);
+}
+tr.detail[hidden] { display: none; }
+.explain {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 2px 18px;
+  max-width: 78ch;
+  font-size: 16.5px;
+}
+.explain > :first-child { margin-top: 0; }
+.explain > :last-child { margin-bottom: 0; }
+.explain p { margin: 0 0 12px; }
+.explain ul, .explain ol { margin: 0 0 12px; padding-left: 22px; }
+.explain li { margin: 3px 0; }
+.explain li::marker { color: var(--ink-3); }
+.module-tag {
+  display: inline-block;
+  font: 500 11.5px/1 var(--font-mono) !important;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-3);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px; padding: 5px 7px;
+  margin: 0 0 12px !important;
+}
+.mini-wrap { overflow-x: auto; margin: 4px 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.mini { font-size: 15px; }
+.mini th, .mini td { padding: 8px 12px; border-top: 1px solid var(--line); }
+.mini thead th { font-size: 11.5px; border-top: 0; padding: 9px 12px; white-space: nowrap; }
+.diagram {
+  margin: 6px 0 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 12px 10px;
+}
+.diagram-scroll { overflow-x: auto; }
+.diagram svg { display: block; width: 100%; min-width: 600px; height: auto; font-family: var(--font-body); }
+.diagram figcaption { margin-top: 8px; font-size: 14.5px; color: var(--ink-3); font-style: italic; }
+
+.foot { border-top: 1px solid var(--line); padding-block: 18px 36px; color: var(--ink-3); font-size: 14.5px; }
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  .masthead { padding-block: 26px 16px; }
+  .standfirst, .lead { font-size: 16.5px; }
+  .tabs { -webkit-mask-image: linear-gradient(to right, #000 88%, transparent); mask-image: linear-gradient(to right, #000 88%, transparent); }
+  .tabs.at-end { -webkit-mask-image: none; mask-image: none; }
+  .tab { padding: 13px 11px 11px; font-size: 15px; }
+  .subtabs { width: 100%; }
+  .subtab { padding: 8px 10px; font-size: 14.5px; }
+
+  .points, .points > tbody, .points > tbody > tr, .points > tbody > tr > th, .points > tbody > tr > td { display: block; }
+  .points > thead { display: none; }
+  .plans { min-width: 600px; }
+  .pay { min-width: 500px; }
+  .plans tbody th, .pay tbody th, .plans thead th:first-child, .pay thead th:first-child {
+    position: sticky; left: 0; z-index: 1; background: var(--surface); width: 128px; min-width: 128px;
+    box-shadow: inset -1px 0 0 var(--line); font-size: 14px; padding: 12px;
+  }
+  .plans thead th:first-child, .pay thead th:first-child { background: var(--surface-2); font-size: 12px; }
+  .plans td, .pay td { padding: 12px; font-size: 15px; }
+  .price td { font-size: 17px; }
+  .plans thead th { font-size: 17px; padding: 12px; }
+  tr.pt { padding: 0 0 12px; border-top: 1px solid var(--line); }
+  tr.pt:first-child, tr.group + tr.pt { border-top: 0; }
+  tr.pt > td { border-top: 0; }
+  .pt-btn { padding: 13px 14px 4px; }
+  .pt-short { padding: 0 14px 0 46px; font-size: 15px; }
+  .points.upg tr.pt { display: grid; grid-template-columns: auto auto 1fr; }
+  .points.upg .pt-name, .points.upg .pt-short { grid-column: 1 / -1; }
+  .points.upg .chk { display: flex; gap: 6px; align-items: baseline; padding: 6px 0 0 46px; font-size: 13.5px; color: var(--ink-3); }
+  .points.upg .chk + .chk { padding-left: 14px; }
+  .points.upg .chk::before { content: attr(data-label); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; }
+  .points.upg .chk .yes { font-size: 15px; }
+  tr.pt:hover > td, tr.pt.open > td { background: none; }
+  tr.pt.open { background: var(--row-open); }
+  tr.detail > td { padding: 2px 14px 18px 20px; }
+  .explain { padding-left: 14px; font-size: 16px; }
+  .diagram svg { min-width: 560px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pm::before, .pm::after { transition: none; }
+  .tabs { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="wrap masthead">
+  <p class="kicker">Build options</p>
+  <h1>Plant automation app</h1>
+  <p class="standfirst">Calibration, GMP audits, shelf-life and returns on one platform. Three indicative plans, each delivering all four modules, and every point can be moved between them.</p>
+  <p class="prepared">Prepared for <strong>Vishwanath Rathod ji</strong>, Plant Head, MOM</p>
+</header>
+
+<nav class="tabbar" aria-label="Sections">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Sections"><button type="button" role="tab" class="tab" id="t-glance" aria-controls="p-glance" aria-selected="false" tabindex="-1">At a glance</button><button type="button" role="tab" class="tab" id="t-every-plan" aria-controls="p-every-plan" aria-selected="false" tabindex="-1">Every plan<span class="count">38</span></button><button type="button" role="tab" class="tab" id="t-upgrades" aria-controls="p-upgrades" aria-selected="false" tabindex="-1">Standard and Premium<span class="count">32</span></button><button type="button" role="tab" class="tab" id="t-discuss" aria-controls="p-discuss" aria-selected="false" tabindex="-1">To discuss<span class="count">4</span></button><button type="button" role="tab" class="tab" id="t-addons" aria-controls="p-addons" aria-selected="false" tabindex="-1">Add-on modules<span class="count">4</span></button><button type="button" role="tab" class="tab" id="t-next-steps" aria-controls="p-next-steps" aria-selected="false" tabindex="-1">Next steps<span class="count">2</span></button></div>
+  </div>
+</nav>
+
+<main class="wrap content">
+<section role="tabpanel" class="panel" id="p-glance" aria-labelledby="t-glance" hidden><h2 class="panel-title sr">At a glance</h2>
+<p class="lead">Every plan delivers everything the plant head asked for across the four modules, and each plan above it makes the daily work lighter. We recommend Standard: reminders reach people on WhatsApp and SMS, every change to a record is logged, errors are tracked, and MOM's admin runs the setup without waiting for us.</p>
+<div class="callout"><p><strong>These three plans are indicative.</strong> They group the points only to make the options easy to compare; they are not fixed packages. Any point can move from one plan to another, and MOM can pick exactly the points it needs instead of choosing a single plan. The whole build is customisable.</p></div>
+<div class="tbl-wrap scroll-x"><table class="plans">
+<thead><tr><th scope="col"><span class="sr">Plan</span></th><th scope="col">Base</th><th scope="col" class="rec">Standard<span class="badge">Recommended</span></th><th scope="col">Premium</th></tr></thead>
+<tbody>
+<tr><th scope="row">What you get</th><td>The four modules on one platform, exactly as asked<a class="jump" href="#every-plan">See the 38 points</a></td><td class="rec">Everything in Base, plus 8 additions<a class="jump" href="#upgrades">See what is added</a></td><td>Everything in Standard, plus 24 more<a class="jump" href="#upgrades">See what is added</a></td></tr>
+<tr><th scope="row">Reminders reach people by</th><td>Email</td><td class="rec">Email, WhatsApp, SMS, and Slack or Teams</td><td>All of these, and people act straight from the message</td></tr>
+<tr><th scope="row">Data entry</th><td>Typed or picked from lists</td><td class="rec">Typed or picked from lists</td><td>AI reads voice, certificates, LR copies and emails; the ERP fills in order details</td></tr>
+<tr><th scope="row">Training</th><td>On-site training day</td><td class="rec">Adds how-to videos for each role</td><td>Adds a second on-site visit</td></tr>
+<tr><th scope="row">Support after go-live</th><td>1 month</td><td class="rec">1 month</td><td>3 months</td></tr>
+<tr><th scope="row">Best for</th><td>Getting all four processes off paper</td><td class="rec">Less chasing, and records that hold up in audits</td><td>The least manual work for everyone involved</td></tr>
+</tbody></table></div>
+<p class="note">In the other tabs, click any point to read how it works.</p>
+</section><section role="tabpanel" class="panel" id="p-every-plan" aria-labelledby="t-every-plan" hidden><h2 class="panel-title sr">Every plan</h2>
+<p class="lead">This is the Base plan: everything the plant head asked for, on one platform. Standard and Premium include all of it. Pick a module below, then click any point to read how it works.</p>
+<div class="subtabs" role="tablist" aria-label="Modules"><button type="button" role="tab" class="subtab" id="st-common" aria-controls="sp-common" aria-selected="true" tabindex="0">Common to all modules<span class="count">12</span></button><button type="button" role="tab" class="subtab" id="st-calibration" aria-controls="sp-calibration" aria-selected="false" tabindex="-1">Calibration<span class="count">6</span></button><button type="button" role="tab" class="subtab" id="st-gmp" aria-controls="sp-gmp" aria-selected="false" tabindex="-1">GMP audits<span class="count">7</span></button><button type="button" role="tab" class="subtab" id="st-shelf" aria-controls="sp-shelf" aria-selected="false" tabindex="-1">Shelf-life<span class="count">6</span></button><button type="button" role="tab" class="subtab" id="st-returns" aria-controls="sp-returns" aria-selected="false" tabindex="-1">Returns<span class="count">7</span></button></div>
+<section role="tabpanel" class="subpanel" id="sp-common" aria-labelledby="st-common"><p class="sub-lead">These come with the platform and serve all four modules.</p><div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What it does</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d1" id="bd1"><span class="pm" aria-hidden="true"></span><span>Logins and roles</span></button></td><td class="pt-short">A login for each person, with roles; MOM's admin adds and removes users</td></tr><tr class="detail" id="d1" hidden><td colspan="2"><div class="explain"><p>Each person signs in with their own login and sees only the screens their role needs.</p><ul><li><strong>Roles:</strong> auditors, testers, department heads, final authorities, channel partners, logistics, the factory, finance and the admin each get their own view.</li><li><strong>Run by MOM:</strong> MOM's admin adds people, changes their role and removes those who leave, without asking us.</li><li><strong>Accountable:</strong> every action in the app is tied to the person who took it.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d2" id="bd2"><span class="pm" aria-hidden="true"></span><span>Works on any phone</span></button></td><td class="pt-short">Runs on any phone or computer, with nothing to install</td></tr><tr class="detail" id="d2" hidden><td colspan="2"><div class="explain"><p>The app opens in the phone's web browser, so it works on the Android phones and iPhones people already carry, and on any laptop or desktop in the office.</p><ul><li>Nothing to install from an app store.</li><li>Screens are made for the phone first: large buttons and short forms that are easy to use on the plant floor.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d3" id="bd3"><span class="pm" aria-hidden="true"></span><span>Time-stamped photos and video</span></button></td><td class="pt-short">Taken inside the app and stamped with the date and time, so an old photo can't be reused as proof</td></tr><tr class="detail" id="d3" hidden><td colspan="2"><div class="explain"><p>Photos and video are taken with the camera inside the app, and each one carries the date and time it was taken.</p><ul><li>An old photo from the gallery cannot be passed off as fresh proof.</li><li>Used wherever proof matters: audit findings and their closure, calibration submissions, and returns received at the factory.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d4" id="bd4"><span class="pm" aria-hidden="true"></span><span>Email reminders and escalation</span></button></td><td class="pt-short">Reminders before each due date; overdue items go to the person above</td></tr><tr class="detail" id="d4" hidden><td colspan="2"><div class="explain"><p>Every task with a due date reminds the person responsible by email, and if it is still not done, it goes to the person above them.</p><figure class="diagram"><div class="diagram-scroll"><svg viewBox='0 0 760 226' role='img' aria-label='Reminder flow: a reminder before the due date, follow-ups until it is done, and the person above is told once it is overdue. Done at any step closes the task.' font-size='13'><defs><marker id='email-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='var(--cds-chart-axis)'/></marker></defs><text x='30' y='28' font-size='15' font-weight='600' fill='var(--cds-text-primary)'>How a reminder turns into an escalation</text><g><rect x='30' y='56' width='200' height='72' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='130' y='86' text-anchor='middle' fill='var(--cds-text-secondary)'>Before the due date</text><text x='130' y='108' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Reminder email</text></g><g><rect x='280' y='56' width='200' height='72' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='86' text-anchor='middle' fill='var(--cds-text-secondary)'>Until it is done</text><text x='380' y='108' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Follow-up emails</text></g><g><rect x='530' y='56' width='200' height='72' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='630' y='86' text-anchor='middle' fill='var(--cds-text-secondary)'>Once it is overdue</text><text x='630' y='108' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>The person above is told</text></g><g><line x1='234' y1='92' x2='276' y2='92' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#email-arrow)'/><line x1='484' y1='92' x2='526' y2='92' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#email-arrow)'/><line x1='130' y1='130' x2='130' y2='150' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#email-arrow)'/><line x1='380' y1='130' x2='380' y2='150' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#email-arrow)'/><line x1='630' y1='130' x2='630' y2='150' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#email-arrow)'/></g><g><rect x='30' y='152' width='700' height='36' rx='8' fill='none' stroke='var(--cds-chart-axis)' stroke-width='1.5' stroke-dasharray='5 4'/><text x='380' y='175' text-anchor='middle' fill='var(--cds-text-primary)'>Done at any step: the reminders stop and the task closes</text></g><text x='30' y='214' fill='var(--cds-text-secondary)'>Every email sent is noted on the record.</text></svg></div><figcaption>Reminders keep going until the task is done; once it is overdue, the person above is told.</figcaption></figure><ol><li>A reminder goes out before the task is due.</li><li>Follow-up reminders continue until it is done.</li><li>Once it is overdue, the escalation contact, such as the final authority or the department head, is told.</li><li>Each email sent is noted on the record.</li></ol><p>It covers calibration and licence renewals, audit point closures and shelf-life checks, and each step of a return sends an email to the people involved.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d5" id="bd5"><span class="pm" aria-hidden="true"></span><span>Plant head overview</span></button></td><td class="pt-short">Licences due, open audit points, checks due and returns waiting, on one screen</td></tr><tr class="detail" id="d5" hidden><td colspan="2"><div class="explain"><p>One screen shows the plant head what needs attention across all four modules, without opening each one.</p><ul><li>Licences and calibrations due or overdue</li><li>Open audit points, by department and severity</li><li>Shelf-life checks coming up</li><li>Returns waiting at each step</li></ul><p>Each count opens the list behind it.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d6" id="bd6"><span class="pm" aria-hidden="true"></span><span>Module dashboards</span></button></td><td class="pt-short">A dashboard for each module, showing what is due, overdue and done</td></tr><tr class="detail" id="d6" hidden><td colspan="2"><div class="explain"><p>Each module has its own dashboard for the people who run it: what is due, what is overdue, what is open and what is done.</p><ul><li>Each number opens the list of records behind it.</li><li>The module's own points (calibration, GMP, shelf-life and returns) explain what its dashboard shows.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d7" id="bd7"><span class="pm" aria-hidden="true"></span><span>Record history</span></button></td><td class="pt-short">The full history of every record, kept in one place</td></tr><tr class="detail" id="d7" hidden><td colspan="2"><div class="explain"><p>Every record keeps its whole story in one place: each step it went through, who did it, and the photos and remarks added along the way.</p><ul><li>Nothing has to be pieced together from emails and folders.</li><li>An auditor's question about any item is answered from one page.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d8" id="bd8"><span class="pm" aria-hidden="true"></span><span>Excel export</span></button></td><td class="pt-short">Any list can be exported to Excel</td></tr><tr class="detail" id="d8" hidden><td colspan="2"><div class="explain"><p>Any list in the app downloads to Excel in one click: the register, audit findings, shelf-life results, returns, and any filtered view of them.</p><p>Useful for sharing with people outside the app, or for any analysis MOM wants to run itself.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d9" id="bd9"><span class="pm" aria-hidden="true"></span><span>AWS setup and hosting</span></button></td><td class="pt-short">We set up the AWS account, EC2 server, database and file storage, and deploy the app</td></tr><tr class="detail" id="d9" hidden><td colspan="2"><div class="explain"><p>We set up everything the app runs on in an AWS account for MOM, and deploy the app there.</p><ul><li><strong>AWS account:</strong> set up and secured, with access only for the people who need it.</li><li><strong>Server:</strong> an EC2 instance that runs the app.</li><li><strong>Database:</strong> where every record is kept.</li><li><strong>File storage:</strong> for photos, videos, certificates and LR copies.</li><li><strong>Web address and secure connection:</strong> the app opens at its own address over HTTPS, and only signed-in users can see MOM's data.</li><li><strong>Email sending:</strong> set up so reminders reach inboxes instead of spam.</li><li><strong>Deployment:</strong> we put the app live on this setup.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d10" id="bd10"><span class="pm" aria-hidden="true"></span><span>Room for more modules</span></button></td><td class="pt-short">New modules can be added later on the same platform, without a rebuild</td></tr><tr class="detail" id="d10" hidden><td colspan="2"><div class="explain"><p>The platform is built so that new modules plug into it later, such as the add-on modules listed in this document.</p><p>A new module uses the same logins, reminders, dashboards and reports, so nothing already built has to be redone and people do not learn a new app.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d11" id="bd11"><span class="pm" aria-hidden="true"></span><span>Existing data loaded by us</span></button></td><td class="pt-short">We load MOM's existing registers, checklists and shelf-life sheets</td></tr><tr class="detail" id="d11" hidden><td colspan="2"><div class="explain"><p>The app starts with MOM's real data, not an empty screen.</p><ol><li>MOM sends its current calibration register, audit checklists and shelf-life sheets.</li><li>We clean, check and load them into the app.</li><li>MOM checks the loaded data before people start using it.</li></ol></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d12" id="bd12"><span class="pm" aria-hidden="true"></span><span>On-site training day</span></button></td><td class="pt-short">A training day at the plant for the people who will use the app</td></tr><tr class="detail" id="d12" hidden><td colspan="2"><div class="explain"><p>We come to the plant and train the people who will use the app, role by role: auditors, testers, department heads, logistics, finance and MOM's admin.</p><p>Each person does their own tasks in the app during the session, on their own phone, so they leave knowing how to do their part.</p></div></td></tr></tbody></table></div></section><section role="tabpanel" class="subpanel" id="sp-calibration" aria-labelledby="st-calibration" hidden><p class="sub-lead">Calibration and legal certification: every instrument, document and licence renewed on time.</p><div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What it does</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d13" id="bd13"><span class="pm" aria-hidden="true"></span><span>Equipment and licence register</span></button></td><td class="pt-short">One register for equipment, documents and licences, with due dates and the people responsible</td></tr><tr class="detail" id="d13" hidden><td colspan="2"><div class="explain"><p>One register holds every instrument, document and legal licence the plant has to keep valid, so nothing depends on someone remembering a spreadsheet.</p><ul><li><strong>Each entry holds:</strong> the type of item, its due date, the first and second responsible person, the final authority, and their emails.</li><li><strong>At the start:</strong> we load MOM's current register into the app.</li><li><strong>After that:</strong> MOM's admin adds new items and retires old ones.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d14" id="bd14"><span class="pm" aria-hidden="true"></span><span>Due-date reminders</span></button></td><td class="pt-short">A reminder two months before the due date, then follow-ups until it is submitted</td></tr><tr class="detail" id="d14" hidden><td colspan="2"><div class="explain"><p>The app tells the responsible person well before an item falls due, and keeps reminding them until they act.</p><ol><li>Two months before the due date, the responsible person gets a reminder.</li><li>They have 10 days to submit, with a photo and remarks.</li><li>Follow-up reminders go out until they submit.</li></ol><p>No one has to keep a diary of due dates or chase people by phone.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d15" id="bd15"><span class="pm" aria-hidden="true"></span><span>Renewal and approval</span></button></td><td class="pt-short">The new certificate is uploaded and approved, and the item moves to its next cycle</td></tr><tr class="detail" id="d15" hidden><td colspan="2"><div class="explain"><p>When an item is renewed, the new certificate goes into the app and the item moves on to its next cycle by itself.</p><figure class="diagram"><div class="diagram-scroll"><svg viewBox='0 0 760 360' role='img' aria-label='Calibration and renewal cycle: reminder before the due date, calibrated or renewed, new certificate uploaded, final authority approves, and the next cycle starts from the new due date.' font-size='13'><defs><marker id='renewal-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='var(--cds-chart-axis)'/></marker></defs><text x='100' y='28' font-size='15' font-weight='600' fill='var(--cds-text-primary)'>The calibration and renewal cycle</text><g><rect x='100' y='52' width='340' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='270' y='75' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Reminder before the due date</text><text x='270' y='95' text-anchor='middle' fill='var(--cds-text-secondary)'>to the person responsible</text></g><g><rect x='100' y='128' width='340' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='270' y='151' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Calibrated or renewed</text><text x='270' y='171' text-anchor='middle' fill='var(--cds-text-secondary)'>by the agency or the licensing authority</text></g><g><rect x='100' y='204' width='340' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='270' y='227' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>New certificate uploaded</text><text x='270' y='247' text-anchor='middle' fill='var(--cds-text-secondary)'>with its new due date</text></g><g><rect x='100' y='280' width='340' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='270' y='303' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Final authority approves</text><text x='270' y='323' text-anchor='middle' fill='var(--cds-text-secondary)'>the old certificate stays on file</text></g><g><line x1='270' y1='110' x2='270' y2='126' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#renewal-arrow)'/><line x1='270' y1='186' x2='270' y2='202' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#renewal-arrow)'/><line x1='270' y1='262' x2='270' y2='278' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#renewal-arrow)'/></g><g><path d='M442,308 L520,308 L520,80 L444,80' fill='none' stroke='var(--cds-chart-categorical-1)' stroke-width='2' marker-end='url(#renewal-arrow)'/><text x='536' y='176' font-weight='600' fill='var(--cds-text-primary)'>Next cycle</text><text x='536' y='196' fill='var(--cds-text-secondary)'>The next reminder is</text><text x='536' y='214' fill='var(--cds-text-secondary)'>set from the new due date</text></g></svg></div><figcaption>Each approval starts the next cycle, so nothing has to be set up again.</figcaption></figure><ol><li>The responsible person uploads the new certificate with its new due date.</li><li>The final authority checks and approves it.</li><li>The item rolls forward: its next reminder is set from the new due date.</li></ol><p>Every past certificate stays on the item's page, so the full record is there when an auditor asks.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d16" id="bd16"><span class="pm" aria-hidden="true"></span><span>Overdue escalation</span></button></td><td class="pt-short">An overdue item goes to the escalation contact</td></tr><tr class="detail" id="d16" hidden><td colspan="2"><div class="explain"><p>If an item passes its due date without a renewal, the app raises it with the people above.</p><ul><li>The final authority is told by email.</li><li>The item shows as overdue on the calibration dashboard and on the plant head overview until it is renewed.</li></ul><p>A lapsed licence or an out-of-calibration instrument is caught on the day, not found later in an audit.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d17" id="bd17"><span class="pm" aria-hidden="true"></span><span>Calibration dashboard and history</span></button></td><td class="pt-short">What is due, overdue and done, and each item's full history</td></tr><tr class="detail" id="d17" hidden><td colspan="2"><div class="explain"><p>One screen shows the state of every item, and each item has a page with its whole past.</p><ul><li><strong>Dashboard:</strong> what is due, what is overdue and what is done, with the list behind each number.</li><li><strong>Item page:</strong> every past calibration or renewal, its certificate, who submitted it and who approved it.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d18" id="bd18"><span class="pm" aria-hidden="true"></span><span>Calibration report</span></button></td><td class="pt-short">The calibration report in MOM's format</td></tr><tr class="detail" id="d18" hidden><td colspan="2"><div class="explain"><p>The calibration report comes out of the app in MOM's existing format, so it looks the same as the report people use today, without anyone putting it together by hand.</p><ul><li>Download it whenever it is needed: for a review, a customer or an outside auditor.</li><li>Its numbers come straight from the register, so it always matches what the app shows.</li></ul></div></td></tr></tbody></table></div></section><section role="tabpanel" class="subpanel" id="sp-gmp" aria-labelledby="st-gmp" hidden><p class="sub-lead">GMP and hygiene audits for Packaging, Store and Manufacturing, from checklist to closure.</p><div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What it does</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d19" id="bd19"><span class="pm" aria-hidden="true"></span><span>Department checklists</span></button></td><td class="pt-short">Packaging, Store and Manufacturing, each with its own checklist and marks</td></tr><tr class="detail" id="d19" hidden><td colspan="2"><div class="explain"><p>Each department has its own audit checklist in MOM's format. Picking a checklist shows only its points and hides the rest.</p><ul><li><strong>Departments:</strong> Packaging, Store and Manufacturing to start, with room to add more.</li><li><strong>Each point</strong> carries its maximum marks, and the checklist header has the fields from MOM's format.</li><li><strong>Changes:</strong> in Base, we make checklist changes for MOM. In Standard and Premium, MOM's admin makes them directly.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d20" id="bd20"><span class="pm" aria-hidden="true"></span><span>Scoring</span></button></td><td class="pt-short">C full marks, PC half, NC zero; NA left out of the total</td></tr><tr class="detail" id="d20" hidden><td colspan="2"><div class="explain"><p>The auditor rates each point and the marks fill in by themselves, so the score is ready the moment the audit is submitted.</p><div class="mini-wrap"><table class="mini"><thead><tr><th>Rating</th><th>Meaning</th><th>Marks</th></tr></thead><tbody><tr><td>C</td><td>Compliant</td><td>Full marks</td></tr><tr><td>PC</td><td>Partially compliant</td><td>Half marks</td></tr><tr><td>NC</td><td>Non-conformance</td><td>Zero</td></tr><tr><td>NA</td><td>Not applicable</td><td>Left out of the total</td></tr></tbody></table></div><p>The department's score is the marks it earned out of the marks possible. Marks can also be entered by hand where needed.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d21" id="bd21"><span class="pm" aria-hidden="true"></span><span>Audit on the phone</span></button></td><td class="pt-short">Audits done on the phone with a stopwatch, and a photo on every NC and PC</td></tr><tr class="detail" id="d21" hidden><td colspan="2"><div class="explain"><p>The auditor runs the whole audit on their phone while walking the department.</p><ol><li>Pick the department, the auditee and the checklist. The auditee is told by email.</li><li>A stopwatch records when the audit started, when it ended and how long it took.</li><li>Rate each point, add a comment, and take a photo on every NC and PC.</li><li>Tag each finding by severity and submit.</li></ol><p>There is no paper checklist to retype, so the audit report is ready the same day instead of taking several days.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d22" id="bd22"><span class="pm" aria-hidden="true"></span><span>Severity and closure deadlines</span></button></td><td class="pt-short">Critical, Major or Minor sets the closure deadline: 8, 10 or 15 days</td></tr><tr class="detail" id="d22" hidden><td colspan="2"><div class="explain"><p>The auditor tags each finding Critical, Major or Minor, and the app sets its closure deadline from that tag.</p><div class="mini-wrap"><table class="mini"><thead><tr><th>Severity</th><th>Days to close</th></tr></thead><tbody><tr><td>Critical</td><td>8</td></tr><tr><td>Major</td><td>10</td></tr><tr><td>Minor</td><td>15</td></tr></tbody></table></div><ul><li>A single point can be given its own deadline when needed.</li><li>Reminders go to the auditee, with the auditor copied, until the point is closed.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d23" id="bd23"><span class="pm" aria-hidden="true"></span><span>Five-step closure</span></button></td><td class="pt-short">Audit, verification, closure with a photo, auditor check, final close</td></tr><tr class="detail" id="d23" hidden><td colspan="2"><div class="explain"><p>Every NC and PC is followed through five steps, so a finding is closed only once it has been fixed and checked.</p><figure class="diagram"><div class="diagram-scroll"><svg viewBox='0 0 760 436' role='img' aria-label='Five-step closure: the auditor submits the audit, the department head verifies it, the auditee closes each point with a photo, the auditor checks each fix, and the department head closes the audit.' font-size='13'><defs><marker id='closure-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='var(--cds-chart-axis)'/></marker></defs><text x='150' y='28' font-size='15' font-weight='600' fill='var(--cds-text-primary)'>How an audit finding is closed</text><g><rect x='150' y='52' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='75' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>1 · Audit</text><text x='380' y='95' text-anchor='middle' fill='var(--cds-text-secondary)'>The auditor submits the audit</text></g><g><rect x='150' y='128' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='151' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>2 · Verification</text><text x='380' y='171' text-anchor='middle' fill='var(--cds-text-secondary)'>The department head reviews it, corrects it and submits it</text></g><g><rect x='150' y='204' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='227' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>3 · Closure</text><text x='380' y='247' text-anchor='middle' fill='var(--cds-text-secondary)'>The auditee fixes each point and closes it with a remark and a photo</text></g><g><rect x='150' y='280' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='303' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>4 · Auditor check</text><text x='380' y='323' text-anchor='middle' fill='var(--cds-text-secondary)'>The auditor checks each fix on the floor against its photo</text></g><g><rect x='150' y='356' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='379' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>5 · Final close</text><text x='380' y='399' text-anchor='middle' fill='var(--cds-text-secondary)'>The department head verifies and closes the audit</text></g><g><line x1='380' y1='110' x2='380' y2='126' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#closure-arrow)'/><line x1='380' y1='186' x2='380' y2='202' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#closure-arrow)'/><line x1='380' y1='262' x2='380' y2='278' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#closure-arrow)'/><line x1='380' y1='338' x2='380' y2='354' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#closure-arrow)'/></g></svg></div><figcaption>The auditor, the department head and the auditee each play a part before a finding counts as closed.</figcaption></figure><ol><li><strong>Audit:</strong> the auditor submits the audit.</li><li><strong>Verification:</strong> the department head reviews it, corrects anything needed, and submits it.</li><li><strong>Closure:</strong> the auditee fixes each point and closes it with a remark and a photo.</li><li><strong>Auditor check:</strong> the auditor checks each fix on the floor against its photo.</li><li><strong>Final close:</strong> the department head verifies and closes the audit.</li></ol><p>Each point shows as Not closed, In progress or Closed all the way through.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d24" id="bd24"><span class="pm" aria-hidden="true"></span><span>Audit calendar</span></button></td><td class="pt-short">Shows which departments are due for their audit, and reminds the auditor</td></tr><tr class="detail" id="d24" hidden><td colspan="2"><div class="explain"><p>Shows at a glance which departments are due or overdue for their regular audit.</p><ul><li>Reminds the auditor to start an audit when a department falls due.</li><li>Suggests rotating auditors across departments, so no one always audits the same area.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d25" id="bd25"><span class="pm" aria-hidden="true"></span><span>GMP dashboard and report</span></button></td><td class="pt-short">A dashboard by department and the Excel report in MOM's format</td></tr><tr class="detail" id="d25" hidden><td colspan="2"><div class="explain"><ul><li><strong>Dashboard by department:</strong> audits done, scores, and open, overdue and closed points, each with the list behind it.</li><li><strong>Audit report:</strong> downloads as Excel in MOM's format, straight from the audit, with nothing to retype.</li></ul></div></td></tr></tbody></table></div></section><section role="tabpanel" class="subpanel" id="sp-shelf" aria-labelledby="st-shelf" hidden><p class="sub-lead">Shelf-life studies for each product and batch, with every check on time.</p><div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What it does</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d26" id="bd26"><span class="pm" aria-hidden="true"></span><span>Study record</span></button></td><td class="pt-short">One record per product, SKU and batch, with its dates, check frequency and testers</td></tr><tr class="detail" id="d26" hidden><td colspan="2"><div class="explain"><p>Each product under study has one record that holds everything about its study.</p><ul><li>Product, SKU and the batch the samples came from</li><li>Manufacturing date, expiry date and total study days (for example 180)</li><li>Purpose: a new product, a formulation change or a packaging change</li><li>How often it is checked. The app works out every check date from this.</li><li>The people assigned to it</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d27" id="bd27"><span class="pm" aria-hidden="true"></span><span>Test results</span></button></td><td class="pt-short">Sensory, chemical and micro results at each check, compared with the first</td></tr><tr class="detail" id="d27" hidden><td colspan="2"><div class="explain"><p>At every check, testers enter results for the same tests, and the app shows them beside the first check so any change stands out.</p><ul><li><strong>Sensory and physical:</strong> taste and look</li><li><strong>Chemical:</strong> results from the plant's machines</li><li><strong>Microbiological</strong></li></ul><p>At the end of the study it is closed, verified, and its final report is made.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d28" id="bd28"><span class="pm" aria-hidden="true"></span><span>Shelf-life pass/fail limits</span></button></td><td class="pt-short">A range for each test; a result outside it is flagged and QA is alerted</td></tr><tr class="detail" id="d28" hidden><td colspan="2"><div class="explain"><p>Each test parameter gets an acceptable range, set once for each product.</p><ul><li>A result outside the range is flagged as soon as it is entered.</li><li>QA is alerted straight away, instead of finding it later when someone reads the sheet.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d29" id="bd29"><span class="pm" aria-hidden="true"></span><span>Check reminders</span></button></td><td class="pt-short">Email reminders to two or three people before each check</td></tr><tr class="detail" id="d29" hidden><td colspan="2"><div class="explain"><p>The 2–3 people assigned to a study get an email before each check falls due (“due in 2 days”, “due tomorrow”), so the sample is pulled and tested on the right day.</p><p>This matters because a missed check can force a study to restart, which can hold up a launch.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d30" id="bd30"><span class="pm" aria-hidden="true"></span><span>Shelf-life dashboard</span></button></td><td class="pt-short">The nearest check on top, and the results laid out for the day-130 decision</td></tr><tr class="detail" id="d30" hidden><td colspan="2"><div class="explain"><ul><li>All products under study, with the nearest check on top.</li><li>For each one: the last check, its result, days elapsed and the next check.</li><li>Filter by product to see its full history and results.</li><li><strong>Deciding early:</strong> on a 180-day study, a product still fine at day 130 lets production and raw-material buying start before the study ends.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d31" id="bd31"><span class="pm" aria-hidden="true"></span><span>Shelf-life report</span></button></td><td class="pt-short">The report in MOM's shelf-life sheet format</td></tr><tr class="detail" id="d31" hidden><td colspan="2"><div class="explain"><p>A summary for each product, in the format of MOM's current shelf-life sheet, built from the results entered at each check.</p><p>It downloads any time, during the study or after it closes.</p></div></td></tr></tbody></table></div></section><section role="tabpanel" class="subpanel" id="sp-returns" aria-labelledby="st-returns" hidden><p class="sub-lead">Return verification, from the partner&#x27;s request to the credit note.</p><div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What it does</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d32" id="bd32"><span class="pm" aria-hidden="true"></span><span>Partner and team logins</span></button></td><td class="pt-short">Logins for channel partners, logistics, factory and finance</td></tr><tr class="detail" id="d32" hidden><td colspan="2"><div class="explain"><p>Everyone involved in a return works in the app with their own login, so each step is recorded by the person who did it.</p><ul><li><strong>Channel partner:</strong> raises the return request.</li><li><strong>MOM's logistics person:</strong> enters the pickup and transport details.</li><li><strong>Factory:</strong> receives and inspects the goods, and records the facts.</li><li><strong>Finance:</strong> raises the credit note.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d33" id="bd33"><span class="pm" aria-hidden="true"></span><span>Return request</span></button></td><td class="pt-short">The partner gives the batch number and reason; the details fill in from an Excel upload</td></tr><tr class="detail" id="d33" hidden><td colspan="2"><div class="explain"><p>Every return starts as a request from the channel partner and becomes one tracked record, all the way to the credit note.</p><figure class="diagram"><div class="diagram-scroll"><svg viewBox='0 0 760 532' role='img' aria-label='Return journey: the channel partner raises the request, logistics records pickup and delivery, the factory checks and accepts the goods, logistics and the partner confirm the findings, finance raises the credit note, and the return closes.' font-size='13'><defs><marker id='return-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='var(--cds-chart-axis)'/></marker></defs><text x='24' y='28' font-size='15' font-weight='600' fill='var(--cds-text-primary)'>A return, from request to credit note</text><g><text x='204' y='85' text-anchor='end' fill='var(--cds-text-secondary)'>Channel partner</text><rect x='220' y='52' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='450' y='75' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Raises the return request</text><text x='450' y='95' text-anchor='middle' fill='var(--cds-text-secondary)'>batch number and reason; the rest fills in from order data</text></g><g><text x='204' y='161' text-anchor='end' fill='var(--cds-text-secondary)'>Logistics</text><rect x='220' y='128' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='450' y='151' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Pickup and delivery</text><text x='450' y='171' text-anchor='middle' fill='var(--cds-text-secondary)'>pickup date, delivery date and the LR copy</text></g><g><text x='204' y='237' text-anchor='end' fill='var(--cds-text-secondary)'>Factory</text><rect x='220' y='204' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='450' y='227' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Checks and accepts the goods</text><text x='450' y='247' text-anchor='middle' fill='var(--cds-text-secondary)'>against the LR copy; any shortage or damage noted with photos</text></g><g><text x='204' y='313' text-anchor='end' fill='var(--cds-text-secondary)'>Logistics and partner</text><rect x='220' y='280' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='450' y='303' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Confirm the findings</text><text x='450' y='323' text-anchor='middle' fill='var(--cds-text-secondary)'>each one confirms what the factory found</text></g><g><text x='204' y='389' text-anchor='end' fill='var(--cds-text-secondary)'>Finance</text><rect x='220' y='356' width='460' height='56' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='450' y='379' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Raises the credit note</text><text x='450' y='399' text-anchor='middle' fill='var(--cds-text-secondary)'>from a link in an email, and enters its number</text></g><g><rect x='220' y='432' width='460' height='56' rx='8' fill='none' stroke='var(--cds-chart-axis)' stroke-width='1.5' stroke-dasharray='5 4'/><text x='450' y='455' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Return closed</text><text x='450' y='475' text-anchor='middle' fill='var(--cds-text-secondary)'>with its photos and remarks attached</text></g><g><line x1='450' y1='110' x2='450' y2='126' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#return-arrow)'/><line x1='450' y1='186' x2='450' y2='202' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#return-arrow)'/><line x1='450' y1='262' x2='450' y2='278' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#return-arrow)'/><line x1='450' y1='338' x2='450' y2='354' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#return-arrow)'/><line x1='450' y1='414' x2='450' y2='430' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#return-arrow)'/></g><text x='220' y='516' fill='var(--cds-text-secondary)'>The people involved get an email at each step.</text></svg></div><figcaption>One record follows the return from the partner&#x27;s request to the credit note.</figcaption></figure><ul><li>The partner enters the batch number and the reason for the return.</li><li>Product, quantity, bill and address details fill in from MOM's order data. In Base and Standard this comes from an Excel upload of the ERP export. In Premium it comes straight from the ERP.</li><li>One request can cover several products from the same lot.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d34" id="bd34"><span class="pm" aria-hidden="true"></span><span>Pickup and receipt</span></button></td><td class="pt-short">Pickup with dates and the LR copy, then receipt at the factory with photos and video</td></tr><tr class="detail" id="d34" hidden><td colspan="2"><div class="explain"><ol><li>Logistics enters the pickup date, the delivery date and the LR copy.</li><li>The factory checks the goods against the LR copy, inspects them and accepts them.</li><li>It records any shortage, damage or other company's product, with photos, video, remarks and batch numbers.</li></ol><p>When the factory accepts the goods, its remarks are emailed to the people concerned.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d35" id="bd35"><span class="pm" aria-hidden="true"></span><span>Approval and credit note</span></button></td><td class="pt-short">The findings are confirmed, then finance raises the credit note</td></tr><tr class="detail" id="d35" hidden><td colspan="2"><div class="explain"><ol><li>Logistics and the channel partner each confirm the factory's findings.</li><li>Finance gets an email with a link, raises the credit note and enters its number.</li><li>The return closes, with its photos and remarks attached.</li></ol><p>Every credit note is backed by what the factory actually received.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d36" id="bd36"><span class="pm" aria-hidden="true"></span><span>Stuck-return escalation</span></button></td><td class="pt-short">A return stuck at one step too long goes to its owner, then to their manager</td></tr><tr class="detail" id="d36" hidden><td colspan="2"><div class="explain"><p>A return that sits at one step for longer than a set number of days is raised by itself.</p><ol><li>The person who owns that step is reminded.</li><li>If it still does not move, their manager is told.</li></ol><p>MOM sets the number of days. No return waits at a step without anyone noticing.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d37" id="bd37"><span class="pm" aria-hidden="true"></span><span>Returns without a request</span></button></td><td class="pt-short">Goods that reach the factory without a request are handled too</td></tr><tr class="detail" id="d37" hidden><td colspan="2"><div class="explain"><p>Sometimes goods reach the factory before anyone has raised a request.</p><ul><li>The factory raises the request itself and fills in the channel partner and logistics details.</li><li>It then receives the goods as usual, and the approvals and credit note follow.</li></ul><p>No return goes unrecorded, however it arrives.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d38" id="bd38"><span class="pm" aria-hidden="true"></span><span>Returns report</span></button></td><td class="pt-short">A returns report carrying the ERP references</td></tr><tr class="detail" id="d38" hidden><td colspan="2"><div class="explain"><ul><li><strong>For each return and in total:</strong> pieces received, accepted and rechecked, the reason, and whether a credit note was raised.</li><li><strong>Format:</strong> downloads in MOM's format, with ERP references that show exactly which products came back.</li></ul></div></td></tr></tbody></table></div></section>
+</section><section role="tabpanel" class="panel" id="p-upgrades" aria-labelledby="t-upgrades" hidden><h2 class="panel-title sr">Standard and Premium</h2>
+<p class="lead">Base is the starting point. Standard adds the first 8 points below. Premium adds those 8 and the 24 after them. Any of these points can also be added on its own to any plan. Click any point to read how it works.</p>
+<div class="tbl-tools"><button type="button" class="open-all">Open all</button></div>
+<div class="tbl-wrap"><table class="points upg">
+<thead><tr><th scope="col">Point</th><th scope="col">What it does</th><th scope="col" class="chk">Standard</th><th scope="col" class="chk">Premium</th></tr></thead>
+<tbody><tr class="group"><th colspan="4" scope="colgroup"><span class="grp-label">In Standard and Premium</span><span class="count">8</span></th></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d39" id="bd39"><span class="pm" aria-hidden="true"></span><span>WhatsApp, SMS and Slack or Teams alerts</span></button></td><td class="pt-short">Reminders and escalations also go out on WhatsApp, by SMS, and to Slack or Teams</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d39" hidden><td colspan="4"><div class="explain"><p class="module-tag">Reminders where people read them</p><p>Reminders reach people where they actually read them, not only by email.</p><ul><li>Due dates, overdue items and escalations also go out on WhatsApp and by SMS.</li><li>If MOM uses Slack or Microsoft Teams, the alerts go there too.</li><li>Each person's alerts go to the number or account on their login.</li></ul><p>WhatsApp and SMS need MOM's business to be registered with the message providers. We guide MOM through it.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d40" id="bd40"><span class="pm" aria-hidden="true"></span><span>Several batches per return</span></button></td><td class="pt-short">One request covers every batch on a truck, with one pickup and one credit note</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d40" hidden><td colspan="4"><div class="explain"><p class="module-tag">Less checking by hand</p><p>One return request covers every batch on a truck.</p><ul><li>Each batch has its own quantity, reason and photos.</li><li>All of them move together under one pickup and one credit note.</li></ul><p>In Base, each request covers one batch.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d41" id="bd41"><span class="pm" aria-hidden="true"></span><span>Change log</span></button></td><td class="pt-short">Every edit after a record is submitted is logged: who, what and when</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d41" hidden><td colspan="4"><div class="explain"><p class="module-tag">Records that hold up</p><p>Every edit made after a record is submitted is logged: who changed it, what changed, and when.</p><p>The original value is kept beside the new one, so a record can be trusted even after it has been corrected.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d42" id="bd42"><span class="pm" aria-hidden="true"></span><span>Error tracking with Sentry</span></button></td><td class="pt-short">Every error in the app is logged in Sentry, and we are alerted straight away</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d42" hidden><td colspan="4"><div class="explain"><p class="module-tag">Keeping the app healthy</p><p>The app is connected to Sentry, an error-tracking service. If something fails in the live app, the error is logged with the screen, the step and the details we need to fix it.</p><ul><li>An alert reaches us straight away, so we can act before people have to report it.</li><li>Each error keeps its history, so a repeat problem is easy to spot.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d43" id="bd43"><span class="pm" aria-hidden="true"></span><span>Photo override</span></button></td><td class="pt-short">Chosen users can attach an existing photo when the camera can't be used</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d43" hidden><td colspan="4"><div class="explain"><p class="module-tag">Records that hold up</p><p>The app normally takes photos with its own camera. When that cannot be used, for example for a document that arrived by email, chosen users can attach an existing photo or file.</p><ul><li>Only the users MOM picks can do this.</li><li>The record shows that the photo was attached, not taken live.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d44" id="bd44"><span class="pm" aria-hidden="true"></span><span>Self-service setup</span></button></td><td class="pt-short">MOM's admin changes checklists, departments, tests, reminder timings and contacts</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d44" hidden><td colspan="4"><div class="explain"><p class="module-tag">MOM in control</p><p>MOM's admin changes the setup directly, without waiting for us:</p><ul><li>Checklist points and their marks</li><li>Departments</li><li>Shelf-life test parameters</li><li>Reminder timings and escalation contacts</li></ul><p>In Base, we make these changes for MOM.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d45" id="bd45"><span class="pm" aria-hidden="true"></span><span>Installable app</span></button></td><td class="pt-short">An icon on the phone's home screen that opens full-screen, with no Play Store step</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d45" hidden><td colspan="4"><div class="explain"><p class="module-tag">MOM in control</p><p>The app can be added to the phone's home screen with its own icon, and it opens full-screen like any other app.</p><ul><li>There is no Play Store step.</li><li>Updates reach every phone by themselves.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d46" id="bd46"><span class="pm" aria-hidden="true"></span><span>How-to videos</span></button></td><td class="pt-short">Short videos for each role, also useful for training new joiners</td><td class="chk" data-label="Standard"><span class="yes" aria-label="Included">✓</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d46" hidden><td colspan="4"><div class="explain"><p class="module-tag">MOM in control</p><p>Short videos for each role: auditors, testers, logistics and finance.</p><ul><li>Each one shows that role's tasks step by step.</li><li>They help train new joiners later, without another training day.</li></ul></div></td></tr><tr class="group prem"><th colspan="4" scope="colgroup"><span class="grp-label">Premium only</span><span class="count">24</span></th></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d47" id="bd47"><span class="pm" aria-hidden="true"></span><span>Act from WhatsApp, Slack or Teams</span></button></td><td class="pt-short">Reply “done” with a photo, or approve, straight from the chat</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d47" hidden><td colspan="4"><div class="explain"><p class="module-tag">Act straight from the message</p><p>People act on an item from the message itself, without opening the app.</p><figure class="diagram"><div class="diagram-scroll"><svg viewBox='0 0 760 180' role='img' aria-label='Acting from a message: the message arrives on WhatsApp, Slack or Teams, the person replies in the chat, and the record in the app is updated under their name.' font-size='13'><defs><marker id='act-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='var(--cds-chart-axis)'/></marker></defs><text x='25' y='28' font-size='15' font-weight='600' fill='var(--cds-text-primary)'>Acting without opening the app</text><g><rect x='25' y='56' width='210' height='72' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='130' y='86' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Message arrives</text><text x='130' y='108' text-anchor='middle' fill='var(--cds-text-secondary)'>on WhatsApp, Slack or Teams</text></g><g><rect x='275' y='56' width='210' height='72' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='380' y='86' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Reply in the chat</text><text x='380' y='108' text-anchor='middle' fill='var(--cds-text-secondary)'>“done” with a photo, or approve</text></g><g><rect x='525' y='56' width='210' height='72' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='630' y='86' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Record updated</text><text x='630' y='108' text-anchor='middle' fill='var(--cds-text-secondary)'>in the app, under their name</text></g><g><line x1='239' y1='92' x2='271' y2='92' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#act-arrow)'/><line x1='489' y1='92' x2='521' y2='92' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#act-arrow)'/></g><text x='25' y='162' fill='var(--cds-text-secondary)'>For example: close an audit point, or approve a calibration or a return.</text></svg></div><figcaption>A reply in the chat does the same as the button in the app.</figcaption></figure><ul><li>Reply “done” with a closure photo to close an audit point.</li><li>Approve a calibration or a return from the chat.</li><li>A channel partner can send a return request on WhatsApp.</li></ul><p>Whatever is done in the chat lands on the record in the app, under that person's name.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d48" id="bd48"><span class="pm" aria-hidden="true"></span><span>SMS action links</span></button></td><td class="pt-short">Each SMS carries a link that opens the item, ready to act on</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d48" hidden><td colspan="4"><div class="explain"><p class="module-tag">Act straight from the message</p><p>Each SMS carries a link that opens the item in the app, ready to act on, so no one has to search for it.</p><p>Useful for people who read SMS more than email or WhatsApp.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d49" id="bd49"><span class="pm" aria-hidden="true"></span><span>AI voice call</span></button></td><td class="pt-short">When a legal licence is close to lapsing, the app phones the people responsible</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d49" hidden><td colspan="4"><div class="explain"><p class="module-tag">Act straight from the message</p><p>For the most critical items, the app phones people instead of waiting for them to read a message.</p><ul><li>When a legal licence is days from lapsing with nothing submitted, the app calls the responsible person and the final authority.</li><li>The call says what is due and records their answer on the item.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d50" id="bd50"><span class="pm" aria-hidden="true"></span><span>Daily to-do message</span></button></td><td class="pt-short">One message each morning listing everything due for that person</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d50" hidden><td colspan="4"><div class="explain"><p class="module-tag">Act straight from the message</p><p>Each person gets one message every morning listing everything due or overdue for them that day, across all four modules.</p><p>One message to read, instead of many separate alerts.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d51" id="bd51"><span class="pm" aria-hidden="true"></span><span>Calendar invites</span></button></td><td class="pt-short">Checks, due dates and planned audits appear in Outlook or Google Calendar</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d51" hidden><td colspan="4"><div class="explain"><p class="module-tag">Act straight from the message</p><p>Shelf-life checks, calibration due dates and planned audits appear in each person's Outlook or Google Calendar.</p><p>When a date changes in the app, the calendar entry moves by itself.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d52" id="bd52"><span class="pm" aria-hidden="true"></span><span>Voice remarks</span></button></td><td class="pt-short">Speak a finding in Hindi, English or a mix, and the app writes it down</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d52" hidden><td colspan="4"><div class="explain"><p class="module-tag">AI that does the typing</p><p>Auditors, testers and the factory speak a finding in Hindi, English or a mix of both, and the app writes it on the record.</p><p>The person confirms or corrects the text before it is saved.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d53" id="bd53"><span class="pm" aria-hidden="true"></span><span>Certificate and licence reading</span></button></td><td class="pt-short">Upload a certificate or licence, and the app fills in its number and dates</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d53" hidden><td colspan="4"><div class="explain"><p class="module-tag">AI that does the typing</p><p>Upload a certificate or licence, and the app fills in its number, issue date and next renewal date.</p><p>The person checks and confirms the details before they are saved.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d54" id="bd54"><span class="pm" aria-hidden="true"></span><span>LR copy reading</span></button></td><td class="pt-short">A photo of the LR copy fills in the transporter, LR number and package count</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d54" hidden><td colspan="4"><div class="explain"><p class="module-tag">AI that does the typing</p><p>A photo of the LR copy fills in the transporter, LR number, date and package count on the return.</p><p>Logistics confirms or corrects the details before they are saved.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d55" id="bd55"><span class="pm" aria-hidden="true"></span><span>Email reading</span></button></td><td class="pt-short">Emailed return requests become drafts; emailed certificates attach to the right item</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d55" hidden><td colspan="4"><div class="explain"><p class="module-tag">AI that does the typing</p><ul><li>Return requests sent to a returns mailbox become draft return records.</li><li>Certificates emailed by agencies or labs attach themselves to the right item.</li></ul><p>A person confirms each one before it is saved.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d56" id="bd56"><span class="pm" aria-hidden="true"></span><span>Audit summary</span></button></td><td class="pt-short">The app drafts the audit report summary for the auditor to edit</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d56" hidden><td colspan="4"><div class="explain"><p class="module-tag">AI that does the typing</p><p>The app drafts the summary of the audit report from the findings and photos.</p><p>The auditor edits and approves it, so the report is finished with less writing.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d57" id="bd57"><span class="pm" aria-hidden="true"></span><span>Ask the app</span></button></td><td class="pt-short">Type or say a question and get the answer or the list</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d57" hidden><td colspan="4"><div class="explain"><p class="module-tag">AI that does the typing</p><p>Type or say a question and get the answer or the list straight away. For example:</p><ul><li>“Which audit points are still open in Packaging?”</li><li>“Which returns are waiting for a credit note?”</li></ul><p>It answers only from MOM's own records in the app.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d58" id="bd58"><span class="pm" aria-hidden="true"></span><span>Photo check</span></button></td><td class="pt-short">Warns when a closure photo is reused, or too dark or blurred to prove anything</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d58" hidden><td colspan="4"><div class="explain"><p class="module-tag">Smarter checks</p><p>The app warns when a closure photo:</p><ul><li>is a reused photo, or a near-copy of an earlier one, or</li><li>is too dark or blurred to prove anything.</li></ul><p>The person is asked for a new photo before the point can close.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d59" id="bd59"><span class="pm" aria-hidden="true"></span><span>Repeat-finding alerts</span></button></td><td class="pt-short">Flags a checklist point that fails again in the same department</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d59" hidden><td colspan="4"><div class="explain"><p class="module-tag">Smarter checks</p><p>The app flags a checklist point that fails again in the same department.</p><p>A problem that keeps coming back gets attention, instead of being closed again and again.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d60" id="bd60"><span class="pm" aria-hidden="true"></span><span>Shelf-life trend chart</span></button></td><td class="pt-short">Each test's results across every check, with an early warning</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d60" hidden><td colspan="4"><div class="explain"><p class="module-tag">Smarter checks</p><p>A chart of each test parameter's results across every check of a study, with an early warning when a result is moving towards its limit.</p><p>It supports the day-130 decision: whether production and raw-material buying can start before the study ends.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d61" id="bd61"><span class="pm" aria-hidden="true"></span><span>Return analytics</span></button></td><td class="pt-short">Returns by reason, product and partner, with the credit-note value</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d61" hidden><td colspan="4"><div class="explain"><p class="module-tag">Smarter checks</p><p>Returns broken down by reason, product, partner and period, with the credit-note value.</p><p>It shows which products or partners cause the most returns, so the cause can be fixed.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d62" id="bd62"><span class="pm" aria-hidden="true"></span><span>Offline drafts</span></button></td><td class="pt-short">Fill in a checklist where the network drops; it sends when the phone reconnects</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d62" hidden><td colspan="4"><div class="explain"><p class="module-tag">On the plant floor</p><p>People can fill in a checklist or a test result where the network drops.</p><p>The draft is kept on the phone and sends by itself when the phone reconnects.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d63" id="bd63"><span class="pm" aria-hidden="true"></span><span>Hindi screens</span></button></td><td class="pt-short">Every button, label and message in Hindi as well as English</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d63" hidden><td colspan="4"><div class="explain"><p class="module-tag">On the plant floor</p><p>Every button, label and message is in Hindi as well as English.</p><p>Each person picks their own language.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d64" id="bd64"><span class="pm" aria-hidden="true"></span><span>QR labels on equipment</span></button></td><td class="pt-short">Scan an instrument's label to open its calibration record</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d64" hidden><td colspan="4"><div class="explain"><p class="module-tag">On the plant floor</p><p>Each instrument gets a QR label.</p><p>Scanning the label opens the instrument's calibration record and full history, with no searching.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d65" id="bd65"><span class="pm" aria-hidden="true"></span><span>Agency upload link</span></button></td><td class="pt-short">The calibration agency uploads its certificate through a secure link, with no login</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d65" hidden><td colspan="4"><div class="explain"><p class="module-tag">On the plant floor</p><p>The outside calibration agency uploads its certificate straight into the item's record through a secure link.</p><ul><li>The agency needs no login.</li><li>MOM staff do not have to forward any emails.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d66" id="bd66"><span class="pm" aria-hidden="true"></span><span>ERP auto-fill</span></button></td><td class="pt-short">Order, batch, product and bill details come from the ERP instead of an Excel upload</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d66" hidden><td colspan="4"><div class="explain"><p class="module-tag">ERP link</p><p>The app reads from MOM's ERP, so details are not typed in or uploaded by hand.</p><figure class="diagram"><div class="diagram-scroll"><svg viewBox='0 0 760 226' role='img' aria-label='ERP link: order, batch, product and bill details and new production batches come from the ERP into the app; credit-note numbers go back to the ERP.' font-size='13'><defs><marker id='erp-arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='var(--cds-chart-axis)'/></marker></defs><text x='40' y='28' font-size='15' font-weight='600' fill='var(--cds-text-primary)'>What moves between the ERP and the app</text><g><rect x='40' y='56' width='180' height='150' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='130' y='128' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>MOM's ERP</text><text x='130' y='148' text-anchor='middle' fill='var(--cds-text-secondary)'>orders and batches</text></g><g><rect x='540' y='56' width='180' height='150' rx='8' fill='var(--cds-chart-categorical-1)' fill-opacity='0.12' stroke='var(--cds-chart-categorical-1)' stroke-width='2'/><text x='630' y='128' text-anchor='middle' font-weight='600' fill='var(--cds-text-primary)'>Plant app</text><text x='630' y='148' text-anchor='middle' fill='var(--cds-text-secondary)'>returns and shelf-life</text></g><g><line x1='224' y1='96' x2='536' y2='96' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#erp-arrow)'/><text x='380' y='87' text-anchor='middle' fill='var(--cds-text-secondary)'>Order, batch, product and bill details</text></g><g><line x1='224' y1='136' x2='536' y2='136' stroke='var(--cds-chart-axis)' stroke-width='1.5' marker-end='url(#erp-arrow)'/><text x='380' y='127' text-anchor='middle' fill='var(--cds-text-secondary)'>New production batches</text></g><g><line x1='536' y1='176' x2='224' y2='176' stroke='var(--cds-chart-categorical-1)' stroke-width='2' marker-end='url(#erp-arrow)'/><text x='380' y='167' text-anchor='middle' fill='var(--cds-text-primary)'>Credit-note numbers go back</text></g></svg></div><figcaption>Details come in from the ERP; credit-note numbers go back to it.</figcaption></figure><ul><li>Order, batch, product and bill details fill in on a return straight from the ERP, instead of from the Excel upload.</li><li>New production batches appear in the app, ready to be picked for shelf-life sampling.</li></ul><p>This needs access from MOM IT. See ERP access under To discuss.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d67" id="bd67"><span class="pm" aria-hidden="true"></span><span>Credit-note write-back</span></button></td><td class="pt-short">Finance's credit-note number goes back to the ERP</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d67" hidden><td colspan="4"><div class="explain"><p class="module-tag">ERP link</p><p>When finance enters the credit-note number in the app, it is sent back to the ERP against its return.</p><p>The two systems always agree, and nobody types the number twice.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d68" id="bd68"><span class="pm" aria-hidden="true"></span><span>Test copy</span></button></td><td class="pt-short">A separate copy of the app for trying every change before it goes live</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d68" hidden><td colspan="4"><div class="explain"><p class="module-tag">Keeping the app healthy</p><p>A separate copy of the app, with its own data, is used to try every change before it reaches the live app.</p><ul><li>Fixes and new features are checked there first, so daily work is never disturbed.</li><li>MOM can try out a change on the test copy before it goes live.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d69" id="bd69"><span class="pm" aria-hidden="true"></span><span>Second on-site visit</span></button></td><td class="pt-short">A second visit after go-live to retrain and fine-tune the setup</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d69" hidden><td colspan="4"><div class="explain"><p class="module-tag">Training and support</p><p>We come back to the plant once people have been using the app, to:</p><ul><li>retrain anyone who needs it,</li><li>answer the questions that come up in daily use,</li><li>fine-tune the setup.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d70" id="bd70"><span class="pm" aria-hidden="true"></span><span>Three months of support</span></button></td><td class="pt-short">Support for 3 months after go-live, instead of 1</td><td class="chk" data-label="Standard"><span class="no" aria-label="Not included">—</span></td><td class="chk" data-label="Premium"><span class="yes" aria-label="Included">✓</span></td></tr><tr class="detail" id="d70" hidden><td colspan="4"><div class="explain"><p class="module-tag">Training and support</p><p>Premium includes 3 months of support after go-live, instead of 1 month in Base and Standard.</p><p>After that, support continues on a monthly arrangement.</p></div></td></tr></tbody></table></div>
+<p class="note">In Base and Standard, order and batch details for returns come in by an Excel upload of the ERP export; in Premium they come from the ERP. A person confirms or corrects every AI result before it is saved.</p>
+</section><section role="tabpanel" class="panel" id="p-discuss" aria-labelledby="t-discuss" hidden><h2 class="panel-title sr">To discuss</h2>
+<p class="lead">These points depend on how the plant works today. We will settle each one with the plant head before work starts.</p>
+<div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What we need to know</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d71" id="bd71"><span class="pm" aria-hidden="true"></span><span>Inspection pack</span></button></td><td class="pt-short">Which inspections the plant has; the app can build one ready file for each visit</td></tr><tr class="detail" id="d71" hidden><td colspan="2"><div class="explain"><p>When an FSSAI officer, a certification auditor or a customer's quality team visits, they ask for written proof:</p><ul><li>calibration certificates for the past year,</li><li>recent audit reports, with proof that each NC was closed,</li><li>the shelf-life study behind a product's claimed life,</li><li>copies of licences, with their validity.</li></ul><p>Today this is gathered by hand from folders, emails and spreadsheets. In the app, all of it is already stored.</p><p>The inspection pack gathers it in one step. Pick a period and the modules to include, and the app builds a single PDF with a cover page, an index, and every certificate, audit report (with its closure photos and sign-offs) and shelf-life result in order, ready to email or print.</p><p><strong>What we would like to know</strong></p><ul><li>Which outside audits or inspections does the plant have, and how often?</li><li>What do they usually ask to see, and how much preparation does a visit take today?</li><li>Would one ready-made file help, or do you prefer to show records on screen during the visit?</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d72" id="bd72"><span class="pm" aria-hidden="true"></span><span>Network on the plant floor</span></button></td><td class="pt-short">Whether phones get a signal everywhere, which decides how much offline drafts matter</td></tr><tr class="detail" id="d72" hidden><td colspan="2"><div class="explain"><p>The app saves records over the phone's mobile data or Wi-Fi. If some areas have no network, people there cannot submit a checklist or a result on the spot. Offline drafts (in Premium) solve this.</p><p><strong>What we would like to know</strong></p><ul><li>Are there areas, such as cold rooms, stores or the production floor, with no mobile signal or Wi-Fi?</li><li>Is there plant Wi-Fi that staff phones can use?</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d73" id="bd73"><span class="pm" aria-hidden="true"></span><span>ERP access</span></button></td><td class="pt-short">What access MOM IT can give for the ERP link in Premium</td></tr><tr class="detail" id="d73" hidden><td colspan="2"><div class="explain"><p>ERP auto-fill and credit-note write-back in Premium need access to MOM's ERP, given by MOM IT. Base and Standard do not need it: order and batch details come in by Excel upload.</p><p><strong>What we would like to know</strong></p><ul><li>Which ERP does MOM use?</li><li>Who in MOM IT can give access?</li><li>Can the app read orders and batches, and write credit-note numbers back?</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d74" id="bd74"><span class="pm" aria-hidden="true"></span><span>Team chat app</span></button></td><td class="pt-short">Whether MOM uses Slack, Teams or neither, which decides where chat alerts go</td></tr><tr class="detail" id="d74" hidden><td colspan="2"><div class="explain"><p>In Standard and Premium, alerts can also go to MOM's team chat app, and in Premium people can act from it.</p><p><strong>What we would like to know</strong></p><ul><li>Does MOM use Slack, Microsoft Teams, or neither?</li></ul><p>If neither, alerts go by email, WhatsApp and SMS only.</p></div></td></tr></tbody></table></div>
+</section><section role="tabpanel" class="panel" id="p-addons" aria-labelledby="t-addons" hidden><h2 class="panel-title sr">Add-on modules</h2>
+<p class="lead">Any plan can add these later on the same platform, with the same logins, reminders and reports. Each is priced on request.</p>
+<div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points"><thead><tr><th>Point</th><th>What it does</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d75" id="bd75"><span class="pm" aria-hidden="true"></span><span>CAPA tracker</span></button></td><td class="pt-short">Corrective and preventive actions from audits, complaints and returns, with a check that the fix worked</td></tr><tr class="detail" id="d75" hidden><td colspan="2"><div class="explain"><p>Tracks corrective and preventive actions from any source: audits, complaints and returns.</p><ul><li>Each action has a root cause, an owner and a due date.</li><li>An effectiveness check confirms that the fix actually worked before the action closes.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d76" id="bd76"><span class="pm" aria-hidden="true"></span><span>Training records</span></button></td><td class="pt-short">Who was trained on what, and who is due for a refresher</td></tr><tr class="detail" id="d76" hidden><td colspan="2"><div class="explain"><p>Keeps a record of who was trained on what (GMP, hygiene, food safety) and when.</p><p>It shows who is due for a refresher and reminds them, the same way the other modules do.</p></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d77" id="bd77"><span class="pm" aria-hidden="true"></span><span>Pest control</span></button></td><td class="pt-short">The bait-station map, service visits, findings and the vendor's reports</td></tr><tr class="detail" id="d77" hidden><td colspan="2"><div class="explain"><ul><li>A map of bait stations around the plant.</li><li>A record of each service visit and its findings.</li><li>The pest-control vendor's reports, stored with each visit.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d78" id="bd78"><span class="pm" aria-hidden="true"></span><span>Customer complaints</span></button></td><td class="pt-short">A complaint log by product and batch, linked to returns</td></tr><tr class="detail" id="d78" hidden><td colspan="2"><div class="explain"><p>A complaint log by product and batch, with the investigation, the reply to the customer and the closure.</p><p>Complaints link to returns, so a complaint and the stock that came back for it sit together.</p></div></td></tr></tbody></table></div>
+</section><section role="tabpanel" class="panel" id="p-next-steps" aria-labelledby="t-next-steps" hidden><h2 class="panel-title sr">Next steps</h2>
+<p class="lead">Two things from MOM's side help us get started.</p>
+<div class="tbl-tools"><button type="button" class="open-all">Open all</button></div><div class="tbl-wrap"><table class="points numbered"><thead><tr><th>Point</th><th>What happens</th></tr></thead><tbody><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d79" id="bd79"><span class="pm" aria-hidden="true"></span><span>Send the inputs</span></button></td><td class="pt-short">MOM sends the checklist and report formats, the shelf-life sheet and the calibration register</td></tr><tr class="detail" id="d79" hidden><td colspan="2"><div class="explain"><p>MOM sends what we need to set the app up to match the plant:</p><ul><li>the GMP checklist and report formats,</li><li>the shelf-life sheet,</li><li>the calibration register,</li><li>the list of users, with their roles and email addresses.</li></ul></div></td></tr><tr class="pt"><td class="pt-name"><button type="button" class="pt-btn" aria-expanded="false" aria-controls="d80" id="bd80"><span class="pm" aria-hidden="true"></span><span>Talk through open questions</span></button></td><td class="pt-short">We settle the points under To discuss with the plant head</td></tr><tr class="detail" id="d80" hidden><td colspan="2"><div class="explain"><p>We go through the points under To discuss with the plant head:</p><ul><li>the inspection pack, a feature not yet placed in a plan,</li><li>the network on the plant floor,</li><li>ERP access,</li><li>which team chat app MOM uses.</li></ul></div></td></tr></tbody></table></div>
+</section>
+</main>
+
+<footer class="wrap"><div class="foot">Click any point in the tables to read how it works.</div></footer>
+
+<script>
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var keys = tabs.map(function (t) { return t.id.slice(2); });
+  var bar = document.querySelector('.tabs');
+  var tabbar = document.querySelector('.tabbar');
+
+  function keepInView(t) {
+    var l = t.offsetLeft, r = l + t.offsetWidth;
+    if (l < bar.scrollLeft) bar.scrollLeft = l - 24;
+    else if (r > bar.scrollLeft + bar.clientWidth) bar.scrollLeft = r - bar.clientWidth + 24;
+  }
+  function edge() {
+    bar.classList.toggle('at-end', bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 4);
+  }
+  bar.addEventListener('scroll', edge, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () {
+    var t = bar.querySelector('[aria-selected="true"]'); if (t) keepInView(t); edge();
+  });
+  window.addEventListener('resize', function () {
+    var t = bar.querySelector('[aria-selected="true"]'); if (t) keepInView(t); edge();
+  });
+
+  function selectIn(list, tab, focus) {
+    list.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      var p = document.getElementById(t.getAttribute('aria-controls'));
+      if (p) p.hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+
+  function show(key, fromUser) {
+    if (keys.indexOf(key) < 0) key = 'glance';
+    var t = document.getElementById('t-' + key);
+    selectIn(tabs, t, false);
+    keepInView(t);
+    edge();
+    if (fromUser) {
+      var top = tabbar.getBoundingClientRect().top + window.scrollY;
+      if (window.scrollY > top) window.scrollTo(0, top);
+    }
+  }
+
+  function currentKey() { return (location.hash || '').replace('#', ''); }
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var key = t.id.slice(2);
+      if (currentKey() === key) { show(key, true); return; }
+      location.hash = key;
+    });
+  });
+  window.addEventListener('hashchange', function () { show(currentKey(), true); });
+
+  function arrowKeys(list, onPick) {
+    list.forEach(function (t, i) {
+      t.addEventListener('keydown', function (e) {
+        var j = null;
+        if (e.key === 'ArrowRight') j = (i + 1) % list.length;
+        else if (e.key === 'ArrowLeft') j = (i - 1 + list.length) % list.length;
+        else if (e.key === 'Home') j = 0;
+        else if (e.key === 'End') j = list.length - 1;
+        if (j === null) return;
+        e.preventDefault();
+        onPick(list[j]);
+        list[j].focus();
+      });
+    });
+  }
+  arrowKeys(tabs, function (t) { t.click(); });
+
+  document.querySelectorAll('.subtabs').forEach(function (group) {
+    var subs = Array.prototype.slice.call(group.querySelectorAll('.subtab'));
+    subs.forEach(function (s) {
+      s.addEventListener('click', function () { selectIn(subs, s, false); });
+    });
+    arrowKeys(subs, function (s) { selectIn(subs, s, false); });
+  });
+
+  function setOpen(btn, open) {
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var d = document.getElementById(btn.getAttribute('aria-controls'));
+    if (d) d.hidden = !open;
+    btn.closest('tr').classList.toggle('open', open);
+  }
+  function toolFor(table) {
+    var wrap = table.closest('.tbl-wrap');
+    var tools = wrap && wrap.previousElementSibling;
+    return tools && tools.querySelector ? tools.querySelector('.open-all') : null;
+  }
+  function syncTool(table) {
+    var b = toolFor(table);
+    if (!b) return;
+    var btns = table.querySelectorAll('.pt-btn');
+    var allOpen = Array.prototype.every.call(btns, function (x) { return x.getAttribute('aria-expanded') === 'true'; });
+    b.textContent = allOpen ? 'Close all' : 'Open all';
+  }
+
+  document.addEventListener('click', function (e) {
+    var oa = e.target.closest('.open-all');
+    if (oa) {
+      var table = oa.parentElement.nextElementSibling.querySelector('table');
+      var btns = table.querySelectorAll('.pt-btn');
+      var anyClosed = Array.prototype.some.call(btns, function (x) { return x.getAttribute('aria-expanded') !== 'true'; });
+      btns.forEach(function (x) { setOpen(x, anyClosed); });
+      syncTool(table);
+      return;
+    }
+    var row = e.target.closest('tr.pt');
+    if (!row) return;
+    var btn = e.target.closest('.pt-btn');
+    if (!btn) {
+      if (e.target.closest('a')) return;
+      var sel = window.getSelection && window.getSelection();
+      if (sel && String(sel).length > 0) return;
+      btn = row.querySelector('.pt-btn');
+    }
+    setOpen(btn, btn.getAttribute('aria-expanded') !== 'true');
+    syncTool(row.closest('table'));
+  });
+
+  show(currentKey(), false);
+})();
+</script>
+
+</body>
+</html>
